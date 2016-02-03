@@ -22,10 +22,16 @@ while 1:
     else:
 
         print "Deleting " + str(paging["count"]) + " of " + str(paging["total"]) + "files..."
+        i = 0
 
         for value in files:
             delete_data = {"token": token, "file": value["id"]}
-            delete_response = requests.post(delete_url, delete_data)
-            print "Deleted '" + value["title"] + "'"
+            delete_response = requests.post(delete_url, delete_data).json()
+
+            if delete_response["ok"] == True:
+                print "File deleted..."
+            else:
+                print "[ERROR] " +  delete_response["error"]
+            i = i + 1
 
 print "Done"
