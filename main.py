@@ -4,8 +4,8 @@ import calendar
 from datetime import datetime, timedelta
 
 token = ""
-
 domain = ""
+
 files_url = "https://slack.com/api/files.list"
 delete_url = "https://" + domain + ".slack.com/api/files.delete"
 
