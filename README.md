@@ -2,19 +2,22 @@
 A simple python script to erase your slack team files when you reach the maximum space available.
 
 ##How to Use
-Start by adding your domain and token in the script variables.
+Start by adding your domain and token in the tokens[] list. You can add as many pairs as you like.
 
-	token = ""
-	domain = ""
+```tokens = [  # make a list of ("domain", "token") here...
+        ("YourDomainGoesHere", "YourApiTokenGoesHere"),
+        etc.
+       ]```
 
-make sure you have the module [requests](http://docs.python-requests.org/en/master/user/install/) installed and simply run
+Make sure you have the module [requests](http://docs.python-requests.org/en/master/user/install/) installed and simply run
 
-	python main.py
+	`python main.py`
 
 What this script does is delete the all the public files in that team for the user token provided and it does so by deleting 100 at each step.
 
 ##Possible Errors
-It is possible that you will have some error messages, [here](https://api.slack.com/methods/files.delete) is a detailed list of them.
+It is possible you will have some error messages, [here](https://api.slack.com/methods/files.delete) is a detailed list of them.
+
 The most frequent are:
 
 * **not_authed** - No token provided
