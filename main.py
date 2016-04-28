@@ -6,7 +6,6 @@ import requests
 import json
 import calendar
 import time
-import pprint
 from datetime import datetime, timedelta
 
 tokens = [  # make a list of ("domain", "token") here...
@@ -45,14 +44,16 @@ if __name__ == '__main__':
                     print("Deleting file %s %5dKB %s" % (datetime.fromtimestamp(f["created"]).strftime('%Y-%m-%d'),  f["size"]/1024, f["name"]))
                     timestamp = str(calendar.timegm(datetime.now().utctimetuple()))
                     delete_url = "https://" + domain + ".slack.com/api/files.delete?t=" + timestamp
-                    response2 = requests.post(delete_url, data = {
+                    delete_response = requests.post(delete_url, data = {
                         "token": token,
                         "file": f["id"], 
                         "set_active": "true", 
-                        "_attempts": "1"})
-                    #print response2.json()
-                    totalDeletedBytes += f["size"]
+                        "_attempts": "1"}).json()
+                    if delete_response["ok"] == True:
+                        totalDeletedBytes += f["size"]
+                    else:
+                        print "[ERROR] " +  delete_response["error"]
             if dryRun:
                 break   # only run once, otherwise we loop forever in a dry run
-            time.sleep(1)
+            time.sleep(1)   # always include *some* kind of rate limiter in loops like this :)
     print("Done! %dMB total deleted" % (totalDeletedBytes/(1024*1024)))
